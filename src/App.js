@@ -1,23 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React, { useState } from "react";
+import ReactPlayer from "react-player";
+
+import VideoCard from "./components/videoCard/videocard";
+import Search from "./components/search/search";
 
 function App() {
+  const [videoList, setVideoList] = useState(null);
+  const [playUrl, setPlayUrl] = useState(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Search setVideoList={setVideoList}></Search>
+      <div style={{ display: "flex" }}>
+        {playUrl && (
+          <ReactPlayer
+            url={"https://www.youtube.com/watch?v=" + playUrl}
+            style={{ width: "50%" }}
+          />
+        )}
+        <div>
+          {videoList &&
+            videoList.map((videodata) => {
+              return (
+                <VideoCard
+                  videoId={videodata.id.videoId}
+                  setPlayUrl={setPlayUrl}
+                />
+              );
+            })}
+        </div>
+      </div>
     </div>
   );
 }
